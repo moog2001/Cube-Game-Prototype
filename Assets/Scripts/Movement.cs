@@ -52,6 +52,8 @@ public class Movement : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             freeCam = false;
+            freeLookCam.m_YAxis.m_InputAxisName = "";
+            freeLookCam.m_XAxis.m_InputAxisName = "";
         }
         if (freeCam)
         {
@@ -60,8 +62,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            freeLookCam.m_YAxis.m_InputAxisName = "";
-            freeLookCam.m_XAxis.m_InputAxisName = "";
+
             freeLookCam.m_RecenterToTargetHeading.m_enabled = !freeCam;
             freeLookCam.m_YAxisRecentering.m_enabled = !freeCam;
 
