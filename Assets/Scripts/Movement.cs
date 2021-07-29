@@ -32,18 +32,26 @@ public class Movement : MonoBehaviour
     float freeLookCamXValue;
     float freeLookCamYValue;
 
+    public GameObject centerOfMass;
+    bool moveTest;
+    Ray hit;
+    Collider collider;
     void Start()
     {
         // Obtain the reference to our Rigidbody.
         body = GetComponent<Rigidbody>();
+        collider = GetComponent<Collider>();
         freeLookCam = GameObject.Find("CM FreeLook1").GetComponent<CinemachineFreeLook>();
         freeLookCamXValue = freeLookCam.m_XAxis.Value;
         freeLookCamYValue = freeLookCam.m_YAxis.Value;
+        freeLookCam.m_YAxisRecentering.m_RecenteringTime = 0.5f;
+        freeLookCam.m_RecenterToTargetHeading.m_RecenteringTime = 0.5f;
 
     }
     // Fixed Update is called a fix number of frames per second.
     private void Update()
     {
+        body.centerOfMass = centerOfMass.transform.localPosition;
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -67,38 +75,27 @@ public class Movement : MonoBehaviour
             freeLookCam.m_YAxisRecentering.m_enabled = !freeCam;
 
         }
-
     }
-    void FixedUpdate()
+
+    private void FixedUpdate()
     {
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
-        if (Input.GetAxis("Jump") > 0)
+        if (Input.GetAxis("Jump") > 0 && IsGrounded())
         {
-            if (isGrounded)
-            {
-                body.AddForce(transform.up * jumpForce);
-            }
+            body.AddForce(transform.up * jumpForce);
         }
+
         Vector3 velocity = (transform.forward * vertical) * speed * Time.fixedDeltaTime;
         velocity.y = body.velocity.y;
         body.velocity = velocity;
         transform.Rotate((transform.up * horizontal) * rotationSpeed * Time.fixedDeltaTime);
+        //
     }
-    // This function is a callback for when an object with a collider collides with this objects collider.
-    void OnCollisionEnter(Collision collision)
+    bool IsGrounded()
     {
-        if (collision.gameObject.tag == ("Ground"))
-        {
-            isGrounded = true;
-        }
+        return Physics.CheckCapsule(collider.bounds.center, new Vector3(collider.bounds.center.x, collider.bounds.min.y - 0.1f, collider.bounds.center.z), 0.18f);
     }
-    // This function is a callback for when the collider is no longer in contact with a previously collided object.
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == ("Ground"))
-        {
-            isGrounded = false;
-        }
-    }
+
+
 }

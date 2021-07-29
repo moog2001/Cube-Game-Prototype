@@ -36,11 +36,12 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Movement.cs" />
-     <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\EnemyConstantDamage.cs" />
-     <Compile Include="Assets\Scripts\UI.cs" />
      <Compile Include="Assets\Scripts\MenuUIHandler.cs" />
+     <Compile Include="Assets\Scripts\Unit.cs" />
+     <Compile Include="Assets\Scripts\Movement.cs" />
+     <Compile Include="Assets\Scripts\UI.cs" />
+     <Compile Include="Assets\Scripts\MeshGenerator.cs" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Moog/programs/unity/2020.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

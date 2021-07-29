@@ -44,7 +44,6 @@ public class EnemyConstantDamage : Unit
     }
     IEnumerator ConstantDamage(float damageAmount)
     {
-        print("coroutine");
         contactObjectScript.health -= damageAmount;
         yield return new WaitForSeconds(0.2f);
         StartCoroutine(ConstantDamage(constantDamageAmount));
