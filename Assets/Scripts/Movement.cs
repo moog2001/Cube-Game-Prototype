@@ -6,7 +6,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
 
-    public CinemachineFreeLook freeLookCam;
+    private CinemachineFreeLook freeLookCam;
     // The Rigidbody attached to the GameObject.
     private Rigidbody body;
     /// <summary>
@@ -16,15 +16,15 @@ public class Movement : MonoBehaviour
     /// <summary>
     /// Rotation Speed scale for turning.
     /// </summary>
-    public float rotationSpeed;
     /// <summary>
     /// The upwards jump force of the player.
     /// </summary>
     public float jumpForce;
+    public float rotationSpeed;
     // The vertical input from input devices.
     private float vertical;
     // The horizontal input from input devices.
-    private float horizontal;
+
     // Whether or not the player is on the ground.
     private bool isGrounded;
     // Initialization function
@@ -34,8 +34,12 @@ public class Movement : MonoBehaviour
 
     public GameObject centerOfMass;
     bool moveTest;
-    Ray hit;
+    RaycastHit rayObject;
     Collider collider;
+    public Vector3 rayHitPoint;
+
+    private float horizontal;
+
     void Start()
     {
         // Obtain the reference to our Rigidbody.
@@ -44,6 +48,8 @@ public class Movement : MonoBehaviour
         freeLookCam = GameObject.Find("CM FreeLook1").GetComponent<CinemachineFreeLook>();
         freeLookCamXValue = freeLookCam.m_XAxis.Value;
         freeLookCamYValue = freeLookCam.m_YAxis.Value;
+        freeLookCam.m_RecenterToTargetHeading.m_WaitTime = 0.2f;
+        freeLookCam.m_YAxisRecentering.m_WaitTime = 0.2f;
         freeLookCam.m_YAxisRecentering.m_RecenteringTime = 0.5f;
         freeLookCam.m_RecenterToTargetHeading.m_RecenteringTime = 0.5f;
 
@@ -75,12 +81,14 @@ public class Movement : MonoBehaviour
             freeLookCam.m_YAxisRecentering.m_enabled = !freeCam;
 
         }
+
     }
+
 
     private void FixedUpdate()
     {
         vertical = Input.GetAxis("Vertical");
-        horizontal = Input.GetAxis("Horizontal");
+
         if (Input.GetAxis("Jump") > 0 && IsGrounded())
         {
             body.AddForce(transform.up * jumpForce);
@@ -89,13 +97,15 @@ public class Movement : MonoBehaviour
         Vector3 velocity = (transform.forward * vertical) * speed * Time.fixedDeltaTime;
         velocity.y = body.velocity.y;
         body.velocity = velocity;
-        transform.Rotate((transform.up * horizontal) * rotationSpeed * Time.fixedDeltaTime);
         //
+
+
+        horizontal = Input.GetAxis("Horizontal");
+        transform.Rotate((transform.up * horizontal) * rotationSpeed * Time.fixedDeltaTime);
     }
     bool IsGrounded()
     {
         return Physics.CheckCapsule(collider.bounds.center, new Vector3(collider.bounds.center.x, collider.bounds.min.y - 0.1f, collider.bounds.center.z), 0.18f);
     }
-
 
 }

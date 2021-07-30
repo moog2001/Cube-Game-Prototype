@@ -23,7 +23,6 @@ public class EnemyConstantDamage : Unit
     {
         if (other.gameObject.CompareTag("Ally"))
         {
-            print(other.gameObject.name);
             inContact = true;
             contactObject = other.gameObject;
             contactObjectScript = contactObject.GetComponent<Unit>();
@@ -34,12 +33,11 @@ public class EnemyConstantDamage : Unit
     {
         if (other.gameObject.CompareTag("Ally"))
         {
-            
             inContact = false;
             StopCoroutine(ConstantDamage(constantDamageAmount));
             contactObject = null;
             contactObjectScript = null;
-            
+
         }
     }
     IEnumerator ConstantDamage(float damageAmount)
