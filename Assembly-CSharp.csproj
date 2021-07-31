@@ -36,14 +36,14 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\FollowRotation.cs" />
      <Compile Include="Assets\Scripts\EnemyConstantDamage.cs" />
      <Compile Include="Assets\Scripts\MeshGenerator.cs" />
      <Compile Include="Assets\Scripts\MenuUIHandler.cs" />
+     <Compile Include="Assets\Scripts\FollowPos.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
      <Compile Include="Assets\Scripts\UI.cs" />
-     <Compile Include="Assets\Scripts\FollowRotation.cs" />
-     <Compile Include="Assets\Scripts\FollowPos.cs" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Moog/programs/unity/2020.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -623,11 +623,17 @@
     <Reference Include="com.unity.cinemachine.editor">
         <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+        <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
         <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
         <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AddOns.Editor">
+        <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
         <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
@@ -638,6 +644,12 @@
     <Reference Include="Unity.TextMeshPro">
         <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProBuilder">
+        <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Editor">
+        <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -646,18 +658,6 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder">
-        <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AddOns.Editor">
-        <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.Editor">
-        <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
-        <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

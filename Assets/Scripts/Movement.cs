@@ -39,6 +39,7 @@ public class Movement : MonoBehaviour
     public Vector3 rayHitPoint;
 
     private float horizontal;
+    RaycastHit rayObjectCache;
 
     void Start()
     {
@@ -52,6 +53,7 @@ public class Movement : MonoBehaviour
         freeLookCam.m_YAxisRecentering.m_WaitTime = 0.2f;
         freeLookCam.m_YAxisRecentering.m_RecenteringTime = 0.5f;
         freeLookCam.m_RecenterToTargetHeading.m_RecenteringTime = 0.5f;
+
 
     }
     // Fixed Update is called a fix number of frames per second.
@@ -74,38 +76,45 @@ public class Movement : MonoBehaviour
             freeLookCam.m_YAxis.m_InputAxisName = "Mouse Y";
             freeLookCam.m_XAxis.m_InputAxisName = "Mouse X";
         }
-        else
-        {
 
-            freeLookCam.m_RecenterToTargetHeading.m_enabled = !freeCam;
-            freeLookCam.m_YAxisRecentering.m_enabled = !freeCam;
 
-        }
+        freeLookCam.m_RecenterToTargetHeading.m_enabled = !freeCam;
+        freeLookCam.m_YAxisRecentering.m_enabled = !freeCam;
+
 
     }
 
 
     private void FixedUpdate()
     {
+
         vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
+
+        //forward moving
+
+        Vector3 velocity = (transform.forward * vertical) * speed * Time.fixedDeltaTime;
+        velocity.y = body.velocity.y;
+        body.velocity = velocity;
+
+        //turning
+
+        Physics.Raycast(new Vector3(collider.bounds.center.x, collider.bounds.min.y, collider.bounds.center.z), -transform.up, out rayObject, 0.01f);
+        if (rayObject.collider != null)
+        {
+            rayObjectCache = rayObject;
+        }
+        transform.Rotate((rayObjectCache.normal * horizontal) * rotationSpeed * Time.fixedDeltaTime);
+
+        //jump
 
         if (Input.GetAxis("Jump") > 0 && IsGrounded())
         {
             body.AddForce(transform.up * jumpForce);
         }
-
-        Vector3 velocity = (transform.forward * vertical) * speed * Time.fixedDeltaTime;
-        velocity.y = body.velocity.y;
-        body.velocity = velocity;
-        //
-
-
-        horizontal = Input.GetAxis("Horizontal");
-        transform.Rotate((transform.up * horizontal) * rotationSpeed * Time.fixedDeltaTime);
     }
     bool IsGrounded()
     {
         return Physics.CheckCapsule(collider.bounds.center, new Vector3(collider.bounds.center.x, collider.bounds.min.y - 0.1f, collider.bounds.center.z), 0.18f);
     }
-
 }
