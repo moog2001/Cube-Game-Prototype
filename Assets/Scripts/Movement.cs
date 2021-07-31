@@ -26,7 +26,6 @@ public class Movement : MonoBehaviour
     // The horizontal input from input devices.
 
     // Whether or not the player is on the ground.
-    private bool isGrounded;
     // Initialization function
     bool freeCam;
     float freeLookCamXValue;
@@ -40,6 +39,8 @@ public class Movement : MonoBehaviour
 
     private float horizontal;
     RaycastHit rayObjectCache;
+    float verticalNormalized;
+    bool isSprinting;
 
     void Start()
     {
@@ -49,23 +50,23 @@ public class Movement : MonoBehaviour
         freeLookCam = GameObject.Find("CM FreeLook1").GetComponent<CinemachineFreeLook>();
         freeLookCamXValue = freeLookCam.m_XAxis.Value;
         freeLookCamYValue = freeLookCam.m_YAxis.Value;
-        freeLookCam.m_RecenterToTargetHeading.m_WaitTime = 0.2f;
-        freeLookCam.m_YAxisRecentering.m_WaitTime = 0.2f;
-        freeLookCam.m_YAxisRecentering.m_RecenteringTime = 0.5f;
-        freeLookCam.m_RecenterToTargetHeading.m_RecenteringTime = 0.5f;
-
+        freeLookCam.m_RecenterToTargetHeading.m_WaitTime = 0.1f;
+        freeLookCam.m_YAxisRecentering.m_WaitTime = 0.1f;
+        freeLookCam.m_YAxisRecentering.m_RecenteringTime = 0.1f;
+        freeLookCam.m_RecenterToTargetHeading.m_RecenteringTime = 0.1f;
+        body.centerOfMass = centerOfMass.transform.localPosition;
 
     }
     // Fixed Update is called a fix number of frames per second.
     private void Update()
     {
-        body.centerOfMass = centerOfMass.transform.localPosition;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             freeCam = true;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        else if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             freeCam = false;
             freeLookCam.m_YAxis.m_InputAxisName = "";
@@ -81,30 +82,67 @@ public class Movement : MonoBehaviour
         freeLookCam.m_RecenterToTargetHeading.m_enabled = !freeCam;
         freeLookCam.m_YAxisRecentering.m_enabled = !freeCam;
 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isSprinting = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            isSprinting = false;
+        }
+
+        vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
 
     }
 
 
     private void FixedUpdate()
     {
-
-        vertical = Input.GetAxis("Vertical");
-        horizontal = Input.GetAxis("Horizontal");
-
+        if (vertical < 0)
+        {
+            verticalNormalized = -1f;
+        }
+        else if (vertical == 0)
+        {
+            verticalNormalized = 1f;
+        }
+        else if (vertical > 0)
+        {
+            verticalNormalized = 1f;
+        }
         //forward moving
-
-        Vector3 velocity = (transform.forward * vertical) * speed * Time.fixedDeltaTime;
-        velocity.y = body.velocity.y;
-        body.velocity = velocity;
+        if (!IsGrounded())
+        {
+            Vector3 velocity = (transform.forward * vertical) * speed / 2 * Time.fixedDeltaTime;
+            velocity.y = body.velocity.y;
+            body.velocity = velocity;
+        }
+        else if (IsGrounded() && !isSprinting)
+        {
+            Vector3 velocity = (transform.forward * vertical) * speed * Time.fixedDeltaTime;
+            velocity.y = body.velocity.y;
+            body.velocity = velocity;
+        }
+        else if (IsGrounded() && isSprinting)
+        {
+            Vector3 velocity = (transform.forward * vertical) * speed * 2 * Time.fixedDeltaTime;
+            velocity.y = body.velocity.y;
+            body.velocity = velocity;
+        }
 
         //turning
 
-        Physics.Raycast(new Vector3(collider.bounds.center.x, collider.bounds.min.y, collider.bounds.center.z), -transform.up, out rayObject, 0.01f);
+        Physics.Raycast(new Vector3(collider.bounds.center.x, collider.bounds.min.y, collider.bounds.center.z), -transform.up, out rayObject, 0.02f);
         if (rayObject.collider != null)
         {
             rayObjectCache = rayObject;
         }
-        transform.Rotate((rayObjectCache.normal * horizontal) * rotationSpeed * Time.fixedDeltaTime);
+        if (rayObjectCache.point != rayObject.point && rayObject.point == null)
+        {
+            transform.Rotate((transform.up * horizontal * verticalNormalized) * rotationSpeed * Time.fixedDeltaTime);
+        }
+        transform.Rotate((rayObjectCache.normal * horizontal * verticalNormalized) * rotationSpeed * Time.fixedDeltaTime);
 
         //jump
 
