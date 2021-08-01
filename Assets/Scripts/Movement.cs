@@ -62,11 +62,11 @@ public class Movement : MonoBehaviour
     {
 
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetMouseButtonDown(2))
         {
             freeCam = true;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftControl))
+        else if (Input.GetMouseButtonUp(2))
         {
             freeCam = false;
             freeLookCam.m_YAxis.m_InputAxisName = "";
@@ -99,26 +99,11 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (vertical < 0)
-        {
-            verticalNormalized = -1f;
-        }
-        else if (vertical == 0)
-        {
-            verticalNormalized = 1f;
-        }
-        else if (vertical > 0)
-        {
-            verticalNormalized = 1f;
-        }
+
+
         //forward moving
-        if (!IsGrounded())
-        {
-            Vector3 velocity = (transform.forward * vertical) * speed / 2 * Time.fixedDeltaTime;
-            velocity.y = body.velocity.y;
-            body.velocity = velocity;
-        }
-        else if (IsGrounded() && !isSprinting)
+
+        if (IsGrounded() && !isSprinting)
         {
             Vector3 velocity = (transform.forward * vertical) * speed * Time.fixedDeltaTime;
             velocity.y = body.velocity.y;
@@ -140,9 +125,9 @@ public class Movement : MonoBehaviour
         }
         if (rayObjectCache.point != rayObject.point && rayObject.point == null)
         {
-            transform.Rotate((transform.up * horizontal * verticalNormalized) * rotationSpeed * Time.fixedDeltaTime);
+            transform.Rotate((transform.up * horizontal) * rotationSpeed * Time.fixedDeltaTime);
         }
-        transform.Rotate((rayObjectCache.normal * horizontal * verticalNormalized) * rotationSpeed * Time.fixedDeltaTime);
+        transform.Rotate((rayObjectCache.normal * horizontal) * rotationSpeed * Time.fixedDeltaTime);
 
         //jump
 
@@ -153,6 +138,6 @@ public class Movement : MonoBehaviour
     }
     bool IsGrounded()
     {
-        return Physics.CheckCapsule(collider.bounds.center, new Vector3(collider.bounds.center.x, collider.bounds.min.y - 0.1f, collider.bounds.center.z), 0.18f);
+        return Physics.CheckCapsule(collider.bounds.center, new Vector3(collider.bounds.center.x, collider.bounds.min.y - 0.05f, collider.bounds.center.z), 0.18f);
     }
 }
