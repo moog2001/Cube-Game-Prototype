@@ -93,7 +93,14 @@ public class Movement : MonoBehaviour
 
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
-
+        if (vertical < 0)
+        {
+            verticalNormalized = -1f;
+        }
+        else
+        {
+            verticalNormalized = 1f;
+        }
     }
 
 
@@ -123,11 +130,15 @@ public class Movement : MonoBehaviour
         {
             rayObjectCache = rayObject;
         }
+
         if (rayObjectCache.point != rayObject.point && rayObject.point == null)
         {
-            transform.Rotate((transform.up * horizontal) * rotationSpeed * Time.fixedDeltaTime);
+            transform.Rotate((transform.up * horizontal) * rotationSpeed * verticalNormalized * Time.fixedDeltaTime);
         }
-        transform.Rotate((rayObjectCache.normal * horizontal) * rotationSpeed * Time.fixedDeltaTime);
+        else
+        {
+            transform.Rotate((rayObjectCache.normal * horizontal) * verticalNormalized * rotationSpeed * Time.fixedDeltaTime);
+        }
 
         //jump
 
