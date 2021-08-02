@@ -146,6 +146,7 @@ public class Movement : MonoBehaviour
         {
             body.AddForce(transform.up * jumpForce);
         }
+
     }
     bool IsGrounded()
     {
