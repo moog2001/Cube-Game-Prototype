@@ -41,7 +41,7 @@ public class ObjectGrid : MonoBehaviour
             for (int j = 0; j < vertices.GetLength(1); j++, k++)
             {
                 vertices[i, j] = player.transform.InverseTransformPoint(totalVertices[k]);
-                objects[k] = new GameObject("point");
+                objects[k] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 objects[k].transform.position = vertices[i, j];
             }
         }
@@ -104,5 +104,5 @@ public class ObjectGrid : MonoBehaviour
         gameObject.transform.SetParent(player.transform, false);
         gameObject.transform.localPosition = spawnPoint;
     }
-        
+
 }

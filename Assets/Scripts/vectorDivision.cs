@@ -21,16 +21,15 @@ public class vectorDivision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(centerOuts.Length);
         foreach (Vector3 centerOut in centerOuts)
         {
-            print(centerOut);
             Debug.DrawRay(centerOut, transform.up, Color.blue, 1f);
         }
     }
 
-    public Vector3[] VectorDivide(Vector3 start, Vector3 end, int divisionNumber)
+    public Vector3[] VectorDivide(Vector3 start, Vector3 end, int gridNum)
     {
+        float divisionNumber = gridNum * 2;
         Vector3 direction = (end - start).normalized;
         float subVecAmount = Vector3.Distance(start, end) / divisionNumber;
 
