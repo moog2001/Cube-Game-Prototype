@@ -38,8 +38,6 @@
   <ItemGroup>
      <Compile Include="Assets\CodeMonkey\Utils\Button_UI.cs" />
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
-     <Compile Include="Assets\Scripts\Pivot.cs" />
-     <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\World_Mesh.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\UI_TextComplex.cs" />
      <Compile Include="Assets\Scripts\EnemyConstantDamage.cs" />
@@ -60,13 +58,13 @@
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\UI_Bar.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
+     <Compile Include="Assets\Scripts\PlayerGridCreation.cs" />
      <Compile Include="Assets\CodeMonkey\MonoBehaviours\ComponentActions.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\UI_Sprite.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\UI_BarMultiple.cs" />
      <Compile Include="Assets\Scripts\UI.cs" />
      <Compile Include="Assets\CodeMonkey\CMDebug.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\FunctionPeriodic.cs" />
-     <Compile Include="Assets\Scripts\PlayerGridCreation.cs" />
      <None Include="Assets\CodeMonkey\README.txt" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Moog/programs/unity/2020.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

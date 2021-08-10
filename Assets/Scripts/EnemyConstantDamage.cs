@@ -7,7 +7,6 @@ public class EnemyConstantDamage : Unit
     // Start is called before the first frame update
     GameObject contactObject;
     Unit contactObjectScript;
-    bool inContact;
     public float constantDamageAmount;
     void Start()
     {
@@ -23,7 +22,7 @@ public class EnemyConstantDamage : Unit
     {
         if (other.gameObject.CompareTag("Ally"))
         {
-            inContact = true;
+
             contactObject = other.gameObject;
             contactObjectScript = contactObject.GetComponent<Unit>();
             StartCoroutine(ConstantDamage(constantDamageAmount));
@@ -33,7 +32,7 @@ public class EnemyConstantDamage : Unit
     {
         if (other.gameObject.CompareTag("Ally"))
         {
-            inContact = false;
+
             StopCoroutine(ConstantDamage(constantDamageAmount));
             contactObject = null;
             contactObjectScript = null;

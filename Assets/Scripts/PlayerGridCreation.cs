@@ -9,15 +9,13 @@ public class PlayerGridCreation : MonoBehaviour
     Mesh playerMesh;
 
     Collider playerCollider;
-
-    public int gridNumY;
-    public int gridNumX;
-
-    public int gridNumZ;
-
     Vector3[,][] centers = new Vector3[3, 4][];
     Vector3[,,] lineVerticesAligned = new Vector3[3, 4, 2];
-    public string objectName;
+    [SerializeField] private string objectName;
+    [SerializeField] private int gridNumY;
+    [SerializeField] private int gridNumX;
+
+    [SerializeField] private int gridNumZ;
 
 
     void Start()

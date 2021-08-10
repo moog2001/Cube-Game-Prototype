@@ -34,7 +34,7 @@ public class Movement : MonoBehaviour
     public GameObject centerOfMass;
     bool moveTest;
     RaycastHit rayObject;
-    Collider collider;
+    Collider objectCollider;
     public Vector3 rayHitPoint;
 
     private float horizontal;
@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour
     {
         // Obtain the reference to our Rigidbody.
         body = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
+        objectCollider = GetComponent<Collider>();
         freeLookCam = GameObject.Find("CM FreeLook1").GetComponent<CinemachineFreeLook>();
         freeLookCamXValue = freeLookCam.m_XAxis.Value;
         freeLookCamYValue = freeLookCam.m_YAxis.Value;
@@ -125,7 +125,7 @@ public class Movement : MonoBehaviour
 
         //turning
 
-        Physics.Raycast(new Vector3(collider.bounds.center.x, collider.bounds.min.y, collider.bounds.center.z), -transform.up, out rayObject, 0.02f);
+        Physics.Raycast(new Vector3(objectCollider.bounds.center.x, objectCollider.bounds.min.y, objectCollider.bounds.center.z), -transform.up, out rayObject, 0.02f);
         if (rayObject.collider != null)
         {
             rayObjectCache = rayObject;
@@ -150,6 +150,6 @@ public class Movement : MonoBehaviour
     }
     bool IsGrounded()
     {
-        return Physics.CheckCapsule(collider.bounds.center, new Vector3(collider.bounds.center.x, collider.bounds.min.y - 0.05f, collider.bounds.center.z), 0.18f);
+        return Physics.CheckCapsule(objectCollider.bounds.center, new Vector3(objectCollider.bounds.center.x, objectCollider.bounds.min.y - 0.05f, objectCollider.bounds.center.z), 0.18f);
     }
 }
