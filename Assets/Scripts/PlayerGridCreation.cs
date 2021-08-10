@@ -115,6 +115,7 @@ public class PlayerGridCreation : MonoBehaviour
         }
         return threeDimensionArray;
     }
+    /*
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.black;
@@ -145,9 +146,8 @@ public class PlayerGridCreation : MonoBehaviour
         }
 
 
-
-
     }
+*/
     public Vector3[] VectorDivide(Vector3 start, Vector3 end, int gridNum)
     {
         float divisionNumber = gridNum * 2;
