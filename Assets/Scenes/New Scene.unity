@@ -869,7 +869,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17700
+  m_Name: pb_Mesh17406
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1273,7 +1273,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 784564768}
-  m_LocalRotation: {x: 0.02061878, y: -0.0000000021503406, z: 4.434682e-11, w: 0.9997874}
+  m_LocalRotation: {x: 0.02061878, y: 0.0000000021503406, z: -4.434682e-11, w: 0.9997874}
   m_LocalPosition: {x: 4.38, y: 3.1220398, z: -8.933275}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1394,7 +1394,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982931908}
-  m_LocalRotation: {x: 0.03880099, y: -0.000000002149178, z: 8.3453064e-11, w: 0.99924695}
+  m_LocalRotation: {x: 0.03880099, y: 0.000000002149178, z: -8.3453064e-11, w: 0.99924695}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1468,7 +1468,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993348829}
-  m_LocalRotation: {x: 0.0024777849, y: -3.0262456e-10, z: 7.498412e-13, w: 0.99999696}
+  m_LocalRotation: {x: 0.002477784, y: 7.074913e-10, z: -1.7530164e-12, w: 0.99999696}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1793,7 +1793,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290770174}
-  m_LocalRotation: {x: 0.020618778, y: -0.0000000010751704, z: 2.2173409e-11, w: 0.99978745}
+  m_LocalRotation: {x: 0.020618778, y: 0.0000000010751702, z: -2.2173404e-11, w: 0.99978745}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2160,10 +2160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9c1168f2551354e8081509419cf8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: CubeTest
-  gridNumY: 10
-  gridNumX: 20
-  gridNumZ: 30
+  gridNumY: 2
+  gridNumX: 3
+  gridNumZ: 4
 --- !u!1 &1497963760
 GameObject:
   m_ObjectHideFlags: 0

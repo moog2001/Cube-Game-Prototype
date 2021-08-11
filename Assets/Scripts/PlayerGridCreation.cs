@@ -11,7 +11,7 @@ public class PlayerGridCreation : MonoBehaviour
     Collider playerCollider;
     Vector3[,][] centers = new Vector3[3, 4][];
     Vector3[,,] lineVerticesAligned = new Vector3[3, 4, 2];
-    [SerializeField] private string objectName;
+
     [SerializeField] private int gridNumY;
     [SerializeField] private int gridNumX;
 
@@ -20,38 +20,33 @@ public class PlayerGridCreation : MonoBehaviour
 
     void Start()
     {
+        //getting player info and components
+        GetPlayerInfo(gameObject.name);
 
 
 
-
-        GetPlayerInfo(objectName);
-
-
-
-
+        //getting the mesh vertices and removing multiple ones
         Vector3[] meshVertices;
         meshVertices = GetVertices(playerMesh);
         meshVertices = meshVertices.Distinct().ToArray();
 
 
-
+        //converting the mesh vertices into line vertices and seperating them to three parts for each dimensions
         Vector3[,] lineVectices;
         lineVectices = cubeVerticesToLineVertices(meshVertices);
         lineVerticesAligned = twoToThreeDimensionVecArray(lineVerticesAligned.GetLength(0), lineVerticesAligned.GetLength(1), lineVerticesAligned.GetLength(2), lineVectices);
 
 
 
-
+        //setting up the grid centers on the lines based on the grid num and line lengths
         for (int j = 0; j < centers.GetLength(1); j++)
         {
             centers[0, j] = VectorDivide(lineVerticesAligned[0, j, 0], lineVerticesAligned[0, j, 1], gridNumY);
         }
-
         for (int j = 0; j < centers.GetLength(1); j++)
         {
             centers[1, j] = VectorDivide(lineVerticesAligned[1, j, 0], lineVerticesAligned[1, j, 1], gridNumX);
         }
-
         for (int j = 0; j < centers.GetLength(1); j++)
         {
             centers[2, j] = VectorDivide(lineVerticesAligned[2, j, 0], lineVerticesAligned[2, j, 1], gridNumZ);
@@ -59,6 +54,15 @@ public class PlayerGridCreation : MonoBehaviour
 
 
 
+
+        //creating line meshes for grid line centers
+        for (int i = 0; i < centers.GetLength(0); i++)
+        {
+            for (int j = 0; j < centers[i, 0].GetLength(0); j++)
+            {
+                LineRender(centers[i, 0][j], centers[i, 1][j], centers[i, 3][j], centers[i, 2][j]);
+            }
+        }
 
 
 
@@ -79,6 +83,7 @@ public class PlayerGridCreation : MonoBehaviour
         player = GameObject.Find(objectName);
         playerMesh = player.GetComponent<MeshFilter>().mesh;
         playerCollider = player.GetComponent<Collider>();
+        GetComponents<LineRenderer>();
     }
     Vector3[] GetVertices(Mesh mesh)
     {
@@ -114,38 +119,38 @@ public class PlayerGridCreation : MonoBehaviour
         return threeDimensionArray;
     }
     /*
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.black;
-        for (int i = 0; i < lineVerticesAligned.GetLength(0); i++)
+        void OnDrawGizmosSelected()
         {
-            for (int j = 0; j < lineVerticesAligned.GetLength(1); j++)
+            Gizmos.color = Color.black;
+            for (int i = 0; i < lineVerticesAligned.GetLength(0); i++)
             {
-                for (int n = 0; n < lineVerticesAligned.GetLength(2); n++)
+                for (int j = 0; j < lineVerticesAligned.GetLength(1); j++)
                 {
-                    Gizmos.DrawSphere(lineVerticesAligned[i, j, n], 0.05f);
+                    for (int n = 0; n < lineVerticesAligned.GetLength(2); n++)
+                    {
+                        Gizmos.DrawSphere(lineVerticesAligned[i, j, n], 0.05f);
+                    }
                 }
             }
-        }
-        Gizmos.color = Color.red;
+            Gizmos.color = Color.red;
 
 
 
 
-        for (int i = 0; i < centers.GetLength(0); i++)
-        {
-            for (int j = 0; j < centers.GetLength(1); j++)
+            for (int i = 0; i < centers.GetLength(0); i++)
             {
-                for (int n = 0; n < centers[i, j].GetLength(0); n++)
+                for (int j = 0; j < centers.GetLength(1); j++)
                 {
-                    Gizmos.DrawSphere(centers[i, j][n], 0.05f);
+                    for (int n = 0; n < centers[i, j].GetLength(0); n++)
+                    {
+                        Gizmos.DrawSphere(centers[i, j][n], 0.05f);
+                    }
                 }
             }
+
+
         }
-
-
-    }
-*/
+    */
     public Vector3[] VectorDivide(Vector3 start, Vector3 end, int gridNum)
     {
         float divisionNumber = gridNum * 2;
@@ -156,7 +161,7 @@ public class PlayerGridCreation : MonoBehaviour
 
         for (int i = 0; i < gridNum; i++)
         {
-            centers[i] = transform.TransformPoint(direction * subVecAmount * (i * 2 + 1) + start);
+            centers[i] = direction * subVecAmount * (i * 2 + 1) + start;
         }
         return centers;
     }
@@ -181,5 +186,28 @@ public class PlayerGridCreation : MonoBehaviour
         lineVerticesOut[11, 0] = cubeVertices[2]; lineVerticesOut[11, 1] = cubeVertices[7];
 
         return lineVerticesOut;
+    }
+    Mesh LineRender(Vector3 one, Vector3 two, Vector3 three, Vector3 four)
+    {
+        GameObject lineObject = new GameObject();
+
+        lineObject.transform.SetParent(gameObject.transform, true);
+
+        LineRenderer Line = lineObject.AddComponent<LineRenderer>();
+
+        Line.positionCount = 5;
+
+        Line.widthMultiplier = 0.01f;
+
+        Vector3[] points = new Vector3[] { one, two, three, four, one };
+
+
+        Line.SetPositions(points);
+
+        Mesh outLineMesh = new Mesh();
+
+        Line.BakeMesh(outLineMesh, true);
+
+        return outLineMesh;
     }
 }

@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\UI.cs" />
      <Compile Include="Assets\CodeMonkey\CMDebug.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\FunctionPeriodic.cs" />
+     <Compile Include="Assets\Scripts\line.cs" />
      <None Include="Assets\CodeMonkey\README.txt" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Moog/programs/unity/2020.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
