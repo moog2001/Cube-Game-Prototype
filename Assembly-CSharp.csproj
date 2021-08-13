@@ -47,6 +47,7 @@
      <Compile Include="Assets\Scripts\vectorDivision.cs" />
      <Compile Include="Assets\CodeMonkey\MonoBehaviours\CameraFollow.cs" />
      <Compile Include="Assets\CodeMonkey\Assets.cs" />
+     <Compile Include="Assets\Scripts\line.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\World_Sprite.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\World_Bar.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\UtilsClass.cs" />
@@ -65,7 +66,8 @@
      <Compile Include="Assets\Scripts\UI.cs" />
      <Compile Include="Assets\CodeMonkey\CMDebug.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\FunctionPeriodic.cs" />
-     <Compile Include="Assets\Scripts\line.cs" />
+     <Compile Include="Assets\Scripts\CollisionContacts.cs" />
+     <Compile Include="Assets\Scripts\FollowPositions.cs" />
      <None Include="Assets\CodeMonkey\README.txt" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Moog/programs/unity/2020.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

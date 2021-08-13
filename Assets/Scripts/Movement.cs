@@ -41,6 +41,7 @@ public class Movement : MonoBehaviour
     RaycastHit rayObjectCache;
     float verticalNormalized;
     bool isSprinting;
+    [SerializeField] LayerMask mask;
 
     void Start()
     {
@@ -101,6 +102,8 @@ public class Movement : MonoBehaviour
         {
             verticalNormalized = 1f;
         }
+
+
     }
 
 
@@ -125,7 +128,7 @@ public class Movement : MonoBehaviour
 
         //turning
 
-        Physics.Raycast(new Vector3(objectCollider.bounds.center.x, objectCollider.bounds.min.y, objectCollider.bounds.center.z), -transform.up, out rayObject, 0.02f);
+        Physics.Raycast(new Vector3(objectCollider.bounds.center.x, objectCollider.bounds.min.y, objectCollider.bounds.center.z), -transform.up, out rayObject, 0.2f, mask);
         if (rayObject.collider != null)
         {
             rayObjectCache = rayObject;
