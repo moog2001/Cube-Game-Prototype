@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CodeMonkey.Utils;
 using System.Linq;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class PlayerGridCreation : MonoBehaviour
     Collider playerCollider;
     Vector3[,][] centers = new Vector3[3, 4][];
     Vector3[,,] lineVerticesAligned = new Vector3[3, 4, 2];
+
+    Vector3[][,] gridCenters;
     [SerializeField] private int gridNumX;
     [SerializeField] private int gridNumY;
 
@@ -25,9 +28,6 @@ public class PlayerGridCreation : MonoBehaviour
     List<List<Vector3>> scanCenters = new List<List<Vector3>>();
 
     public bool isDone = false;
-    [SerializeField] GameObject rootMovementObject;
-    GameObject[] lines;
-
     void Start()
     {
         //getting player info and components
@@ -64,58 +64,162 @@ public class PlayerGridCreation : MonoBehaviour
 
 
 
-        //creating line meshes for grid line centers and giving them their appropiate names
 
-        lines = new GameObject[gridNumX];
-
-        int k = 0;
-        for (int j = 0; j < centers[0, 0].GetLength(0); j++, k++)
-        {
-            lines[k] = LineRender(centers[0, 0][j], centers[0, 1][j], centers[0, 3][j], centers[0, 2][j], "x", gameObject);
-        }
         /*
-        for (int j = 0; j < centers[1, 0].GetLength(0); j++, k++)
-        {
-            lines[k] = LineRender(centers[1, 0][j], centers[1, 1][j], centers[1, 3][j], centers[1, 2][j], "y", gameObject);
-        }
-        for (int j = 0; j < centers[2, 0].GetLength(0); j++, k++)
-        {
-            lines[k] = LineRender(centers[2, 0][j], centers[2, 1][j], centers[2, 3][j], centers[2, 2][j], "z", gameObject);
-        }
-        */
+                //creating line meshes for grid line centers and giving them their appropiate names
+
+                lines = new GameObject[gridNumX];
+
+                int k = 0;
+                for (int j = 0; j < centers[0, 0].GetLength(0); j++, k++)
+                {
+                    lines[k] = LineRender(centers[0, 0][j], centers[0, 1][j], centers[0, 3][j], centers[0, 2][j], "x", gameObject);
+                }
+
+                for (int j = 0; j < centers[1, 0].GetLength(0); j++, k++)
+                {
+                    lines[k] = LineRender(centers[1, 0][j], centers[1, 1][j], centers[1, 3][j], centers[1, 2][j], "y", gameObject);
+                }
+                for (int j = 0; j < centers[2, 0].GetLength(0); j++, k++)
+                {
+                    lines[k] = LineRender(centers[2, 0][j], centers[2, 1][j], centers[2, 3][j], centers[2, 2][j], "z", gameObject);
+                }
+                */
+
+
 
         methodToCall = Start2;
-        StartCoroutine(waitForScanSingle(1.5f));
+        StartCoroutine(waitForScanSingle(1f));
+
 
     }
 
 
     void Start2()
     {
+
+      // creating the girds 
+
+        gridCenters = new Vector3[5][,]
+       {
+        new Vector3[gridNumX,gridNumY],
+        new Vector3[gridNumZ,gridNumY],
+        new Vector3[gridNumX,gridNumY],
+        new Vector3[gridNumZ,gridNumY],
+        new Vector3[gridNumX, gridNumZ],
+       };
+        // x and y 
+        for (int i = 0; i < centers[0, 0].GetLength(0); i++)
+        {
+            Debug.DrawLine(centers[0, 0][i], centers[0, 1][i], Color.red, 10f);
+        }
         for (int i = 0; i < centers[1, 0].GetLength(0); i++)
         {
-            Vector3[] travelPoints = new Vector3[] { centers[1, 0][i], centers[1, 1][i], centers[1, 3][i], centers[1, 2][i], centers[1, 0][i] };
-            ScanLines(travelPoints, scanPrefab, "x");
+            Debug.DrawLine(centers[1, 0][i], centers[1, 1][i], Color.red, 10f);
+        }
+
+        for (int i = 0; i < gridCenters[0].GetLength(0); i++)
+        {
+            for (int j = 0; j < gridCenters[0].GetLength(1); j++)
+            {
+                gridCenters[0][i, j] = GetIntersection(centers[0, 0][i], centers[0, 1][i], centers[1, 0][j], centers[1, 1][j]);
+            }
+        }
+        // z and y
+        for (int i = 0; i < centers[2, 0].GetLength(0); i++)
+        {
+            Debug.DrawLine(centers[2, 0][i], centers[2, 1][i], Color.blue, 10f);
+        }
+        for (int i = 0; i < centers[1, 0].GetLength(0); i++)
+        {
+            Debug.DrawLine(centers[1, 0][i], centers[1, 2][i], Color.blue, 10f);
+        }
+        for (int i = 0; i < gridCenters[1].GetLength(0); i++)
+        {
+            for (int j = 0; j < gridCenters[1].GetLength(1); j++)
+            {
+                gridCenters[1][i, j] = GetIntersection(centers[2, 0][i], centers[2, 1][i], centers[1, 0][j], centers[1, 2][j]);
+            }
+        }
+        //x and y
+        for (int i = 0; i < centers[0, 2].GetLength(0); i++)
+        {
+            Debug.DrawLine(centers[0, 2][i], centers[0, 3][i], Color.black, 10f);
+        }
+        for (int i = 0; i < centers[1, 2].GetLength(0); i++)
+        {
+            Debug.DrawLine(centers[1, 2][i], centers[1, 3][i], Color.black, 10f);
+        }
+        for (int i = 0; i < gridCenters[2].GetLength(0); i++)
+        {
+            for (int j = 0; j < gridCenters[2].GetLength(1); j++)
+            {
+                gridCenters[2][i, j] = GetIntersection(centers[0, 2][i], centers[0, 3][i], centers[1, 2][j], centers[1, 3][j]);
+            }
+        }
+        // z and y
+        for (int i = 0; i < centers[2, 2].GetLength(0); i++)
+        {
+            Debug.DrawLine(centers[2, 2][i], centers[2, 3][i], Color.yellow, 10f);
+        }
+        for (int i = 0; i < centers[1, 3].GetLength(0); i++)
+        {
+            Debug.DrawLine(centers[1, 3][i], centers[1, 1][i], Color.yellow, 10f);
+        }
+
+        for (int i = 0; i < gridCenters[3].GetLength(0); i++)
+        {
+            for (int j = 0; j < gridCenters[3].GetLength(1); j++)
+            {
+                gridCenters[3][i, j] = GetIntersection(centers[2, 2][i], centers[2, 3][i], centers[1, 3][j], centers[1, 1][j]);
+            }
+        }
+        // x and z
+        for (int i = 0; i < centers[0, 1].GetLength(0); i++)
+        {
+            Debug.DrawLine(centers[0, 1][i], centers[0, 3][i], Color.gray, 10f);
+        }
+        for (int i = 0; i < centers[2, 1].GetLength(0); i++)
+        {
+            Debug.DrawLine(centers[2, 1][i], centers[2, 3][i], Color.gray, 10f);
+        }
+        for (int i = 0; i < gridCenters[4].GetLength(0); i++)
+        {
+            for (int j = 0; j < gridCenters[4].GetLength(1); j++)
+            {
+                gridCenters[4][i, j] = GetIntersection(centers[0, 1][i], centers[0, 3][i], centers[2, 1][j], centers[2, 3][j]);
+            }
+        }
+        for (int i = 0; i < gridCenters[0].GetLength(0); i++)
+        {
+            for (int j = 0; j < gridCenters[0].GetLength(1); j++)
+            {
+                print(gridCenters[0][i, j]);
+            }
+        }
+
+
+
+        // animation for the scanning thing
+
+
+        for (int i = 0; i < centers.GetLength(0); i++)
+        {
+            for (int j = 0; j < centers[i, 0].GetLength(0); j++)
+            {
+                Vector3[] travelPoints = new Vector3[] { centers[i, 0][j], centers[i, 1][j], centers[i, 3][j], centers[i, 2][j], centers[i, 0][j] };
+                ScanLines(travelPoints, scanPrefab);
+            }
         }
         methodToCall = Start3;
         StartCoroutine(waitForScanSingle(scanTime * 4 + 1f));
 
     }
-    void Start3()
+
+    private void Start3()
     {
-        foreach(GameObject x in lines){
-            Destroy(x);
-        }
         isDone = true;
-        foreach (List<Vector3> x in scanCenters)
-        {
-            print(x.Count);
-        }
-        Rigidbody rootMovementRb = rootMovementObject.GetComponent<Rigidbody>();
-        rootMovementRb.isKinematic = false;        
     }
-
-
     // Update is called once per frame
 
 
@@ -132,7 +236,7 @@ public class PlayerGridCreation : MonoBehaviour
         Vector3[] totalVertices = new Vector3[playerMesh.vertices.Length];
         for (int i = 0; i < totalVertices.Length; i++)
         {
-            totalVertices[i] = transform.TransformPoint(playerMesh.vertices[i]);
+            totalVertices[i] = playerMesh.vertices[i];
         }
         return totalVertices;
     }
@@ -199,7 +303,8 @@ public class PlayerGridCreation : MonoBehaviour
     */
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.black;
+        Gizmos.color = Color.red;
+        /*
         foreach (List<Vector3> x in scanCenters)
         {
             foreach (Vector3 y in x)
@@ -208,6 +313,30 @@ public class PlayerGridCreation : MonoBehaviour
             }
 
         }
+        
+        for (int i = 0; i < centers.GetLength(0) - 1; i++)
+        {
+            for (int j = 0; j < centers.GetLength(1) - 1; j++)
+            {
+                for (int n = 0; n < centers[i, j].GetLength(0); n++)
+                {
+                    Gizmos.DrawSphere(transform.TransformPoint(GetIntersection(centers[i, j][n], centers[i + 1, j][n], centers[i, j + 1][n], centers[i + 1, j + 1][n])), 0.05f);
+                }
+            }
+        }
+        
+        for (int i = 0; i < gridCenters[0].GetLength(0); i++)
+        {
+            for (int j = 0; j < gridCenters[0].GetLength(1); j++)
+            {
+                Gizmos.DrawSphere(GetIntersection(centers[0, 0][i], centers[0, 1][i], centers[1, 0][j], centers[1, 1][j]), 0.05f);
+            }
+        }
+        */
+
+
+
+
 
     }
     public Vector3[] VectorDivide(Vector3 start, Vector3 end, int gridNum)
@@ -276,34 +405,76 @@ public class PlayerGridCreation : MonoBehaviour
         return lineObject;
     }
 
-    void ScanLines(Vector3[] travelPoints, GameObject prefab, string collisionObjectName)
+    void ScanLines(Vector3[] travelPoints, GameObject prefab)
     {
         GameObject scanCube = Instantiate(prefab, travelPoints[0], prefab.transform.rotation);
-        scanCube.transform.parent = gameObject.transform;
         Rigidbody objectRigidBody = scanCube.AddComponent<Rigidbody>();
         objectRigidBody.useGravity = false;
         objectRigidBody.isKinematic = true;
         FollowPositions followPositions = scanCube.GetComponent<FollowPositions>();
         followPositions.parentObject = gameObject;
-        followPositions.collisionObjectName = collisionObjectName;
         followPositions.StartCoroutine(scanCube.GetComponent<FollowPositions>().FollowVector3Points(scanTime, travelPoints));
-        StartCoroutine(waitForScan(scanTime * 4 + 1f, followPositions));
     }
-    IEnumerator waitForScan(float scanWaitTime, FollowPositions scanObjectFollowPositions)
+
+    Vector3 GetIntersection(Vector3 a2, Vector3 a1, Vector3 b2, Vector3 b1)
     {
+        Vector3 intersection;
+        Vector3 aDiff = a2 - a1;
+        Vector3 bDiff = b2 - b1;
+        if (LineLineIntersection(out intersection, a1, aDiff, b1, bDiff))
+        {
+            float aSqrMagnitude = aDiff.sqrMagnitude;
+            float bSqrMagnitude = bDiff.sqrMagnitude;
 
-        yield return new WaitForSeconds(scanWaitTime);
-
-
-        scanCenters.Add(scanObjectFollowPositions.hitPoints);
-
+            if ((intersection - a1).sqrMagnitude <= aSqrMagnitude
+                 && (intersection - a2).sqrMagnitude <= aSqrMagnitude
+                 && (intersection - b1).sqrMagnitude <= bSqrMagnitude
+                 && (intersection - b2).sqrMagnitude <= bSqrMagnitude)
+            {
+                // there is an intersection between the two segments and it is at intersection
+                return intersection;
+            }
+            else
+            {
+                return Vector3.zero;
+            }
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
+
     IEnumerator waitForScanSingle(float scanWaitTime)
     {
 
         yield return new WaitForSeconds(scanWaitTime);
         SimpleMethod();
 
+    }
+    static bool LineLineIntersection(out Vector3 intersection, Vector3 linePoint1,
+       Vector3 lineVec1, Vector3 linePoint2, Vector3 lineVec2)
+    {
+
+        Vector3 lineVec3 = linePoint2 - linePoint1;
+        Vector3 crossVec1and2 = Vector3.Cross(lineVec1, lineVec2);
+        Vector3 crossVec3and2 = Vector3.Cross(lineVec3, lineVec2);
+
+        float planarFactor = Vector3.Dot(lineVec3, crossVec1and2);
+
+        //is coplanar, and not parallel
+        if (Mathf.Abs(planarFactor) < 0.0001f
+                && crossVec1and2.sqrMagnitude > 0.0001f)
+        {
+            float s = Vector3.Dot(crossVec3and2, crossVec1and2) / crossVec1and2.sqrMagnitude;
+            intersection = linePoint1 + (lineVec1 * s);
+            return true;
+        }
+        else
+        {
+            intersection = Vector3.zero;
+            return false;
+        }
     }
     private void SimpleMethod()
     {
