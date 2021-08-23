@@ -63,61 +63,15 @@ public class PlayerGridCreation : MonoBehaviour
 
 
 
-
-
-        /*
-                //creating line meshes for grid line centers and giving them their appropiate names
-
-                lines = new GameObject[gridNumX];
-
-                int k = 0;
-                for (int j = 0; j < centers[0, 0].GetLength(0); j++, k++)
-                {
-                    lines[k] = LineRender(centers[0, 0][j], centers[0, 1][j], centers[0, 3][j], centers[0, 2][j], "x", gameObject);
-                }
-
-                for (int j = 0; j < centers[1, 0].GetLength(0); j++, k++)
-                {
-                    lines[k] = LineRender(centers[1, 0][j], centers[1, 1][j], centers[1, 3][j], centers[1, 2][j], "y", gameObject);
-                }
-                for (int j = 0; j < centers[2, 0].GetLength(0); j++, k++)
-                {
-                    lines[k] = LineRender(centers[2, 0][j], centers[2, 1][j], centers[2, 3][j], centers[2, 2][j], "z", gameObject);
-                }
-                */
-
-
-
-        methodToCall = Start2;
-        StartCoroutine(waitForScanSingle(1f));
-
-
-    }
-
-
-    void Start2()
-    {
-
-      // creating the girds 
-
         gridCenters = new Vector3[5][,]
        {
         new Vector3[gridNumX,gridNumY],
-        new Vector3[gridNumZ,gridNumY],
         new Vector3[gridNumX,gridNumY],
+        new Vector3[gridNumZ,gridNumY],
         new Vector3[gridNumZ,gridNumY],
         new Vector3[gridNumX, gridNumZ],
        };
         // x and y 
-        for (int i = 0; i < centers[0, 0].GetLength(0); i++)
-        {
-            Debug.DrawLine(centers[0, 0][i], centers[0, 1][i], Color.red, 10f);
-        }
-        for (int i = 0; i < centers[1, 0].GetLength(0); i++)
-        {
-            Debug.DrawLine(centers[1, 0][i], centers[1, 1][i], Color.red, 10f);
-        }
-
         for (int i = 0; i < gridCenters[0].GetLength(0); i++)
         {
             for (int j = 0; j < gridCenters[0].GetLength(1); j++)
@@ -125,48 +79,23 @@ public class PlayerGridCreation : MonoBehaviour
                 gridCenters[0][i, j] = GetIntersection(centers[0, 0][i], centers[0, 1][i], centers[1, 0][j], centers[1, 1][j]);
             }
         }
-        // z and y
-        for (int i = 0; i < centers[2, 0].GetLength(0); i++)
-        {
-            Debug.DrawLine(centers[2, 0][i], centers[2, 1][i], Color.blue, 10f);
-        }
-        for (int i = 0; i < centers[1, 0].GetLength(0); i++)
-        {
-            Debug.DrawLine(centers[1, 0][i], centers[1, 2][i], Color.blue, 10f);
-        }
+        //x and y
         for (int i = 0; i < gridCenters[1].GetLength(0); i++)
         {
             for (int j = 0; j < gridCenters[1].GetLength(1); j++)
             {
-                gridCenters[1][i, j] = GetIntersection(centers[2, 0][i], centers[2, 1][i], centers[1, 0][j], centers[1, 2][j]);
+                gridCenters[1][i, j] = GetIntersection(centers[0, 2][i], centers[0, 3][i], centers[1, 2][j], centers[1, 3][j]);
             }
         }
-        //x and y
-        for (int i = 0; i < centers[0, 2].GetLength(0); i++)
-        {
-            Debug.DrawLine(centers[0, 2][i], centers[0, 3][i], Color.black, 10f);
-        }
-        for (int i = 0; i < centers[1, 2].GetLength(0); i++)
-        {
-            Debug.DrawLine(centers[1, 2][i], centers[1, 3][i], Color.black, 10f);
-        }
+        // z and y
         for (int i = 0; i < gridCenters[2].GetLength(0); i++)
         {
             for (int j = 0; j < gridCenters[2].GetLength(1); j++)
             {
-                gridCenters[2][i, j] = GetIntersection(centers[0, 2][i], centers[0, 3][i], centers[1, 2][j], centers[1, 3][j]);
+                gridCenters[2][i, j] = GetIntersection(centers[2, 0][i], centers[2, 1][i], centers[1, 0][j], centers[1, 2][j]);
             }
         }
         // z and y
-        for (int i = 0; i < centers[2, 2].GetLength(0); i++)
-        {
-            Debug.DrawLine(centers[2, 2][i], centers[2, 3][i], Color.yellow, 10f);
-        }
-        for (int i = 0; i < centers[1, 3].GetLength(0); i++)
-        {
-            Debug.DrawLine(centers[1, 3][i], centers[1, 1][i], Color.yellow, 10f);
-        }
-
         for (int i = 0; i < gridCenters[3].GetLength(0); i++)
         {
             for (int j = 0; j < gridCenters[3].GetLength(1); j++)
@@ -175,14 +104,6 @@ public class PlayerGridCreation : MonoBehaviour
             }
         }
         // x and z
-        for (int i = 0; i < centers[0, 1].GetLength(0); i++)
-        {
-            Debug.DrawLine(centers[0, 1][i], centers[0, 3][i], Color.gray, 10f);
-        }
-        for (int i = 0; i < centers[2, 1].GetLength(0); i++)
-        {
-            Debug.DrawLine(centers[2, 1][i], centers[2, 3][i], Color.gray, 10f);
-        }
         for (int i = 0; i < gridCenters[4].GetLength(0); i++)
         {
             for (int j = 0; j < gridCenters[4].GetLength(1); j++)
@@ -190,19 +111,9 @@ public class PlayerGridCreation : MonoBehaviour
                 gridCenters[4][i, j] = GetIntersection(centers[0, 1][i], centers[0, 3][i], centers[2, 1][j], centers[2, 3][j]);
             }
         }
-        for (int i = 0; i < gridCenters[0].GetLength(0); i++)
-        {
-            for (int j = 0; j < gridCenters[0].GetLength(1); j++)
-            {
-                print(gridCenters[0][i, j]);
-            }
-        }
-
 
 
         // animation for the scanning thing
-
-
         for (int i = 0; i < centers.GetLength(0); i++)
         {
             for (int j = 0; j < centers[i, 0].GetLength(0); j++)
@@ -211,15 +122,10 @@ public class PlayerGridCreation : MonoBehaviour
                 ScanLines(travelPoints, scanPrefab);
             }
         }
-        methodToCall = Start3;
-        StartCoroutine(waitForScanSingle(scanTime * 4 + 1f));
+
 
     }
 
-    private void Start3()
-    {
-        isDone = true;
-    }
     // Update is called once per frame
 
 
@@ -333,6 +239,16 @@ public class PlayerGridCreation : MonoBehaviour
             }
         }
         */
+        for (int i = 0; i < gridCenters.GetLength(0); i++)
+        {
+            for (int j = 0; j < gridCenters[i].GetLength(0); j++)
+            {
+                for (int n = 0; n < gridCenters[i].GetLength(1); n++)
+                {
+                    Gizmos.DrawSphere(transform.TransformPoint(gridCenters[i][j, n]), 0.05f);
+                }
+            }
+        }
 
 
 

@@ -9,14 +9,10 @@ public class FollowPositions : MonoBehaviour
     private RaycastHit hit;
     public List<Vector3> hitPoints = new List<Vector3>();
     public bool isDone = false;
-    private LayerMask playerMask;
-    private Renderer objectRenderer;
-
 
     private void Start()
     {
         transform.SetParent(parentObject.transform);
-        objectRenderer = GetComponent<Renderer>();
         StartCoroutine(NormalCheck());
     }
     public IEnumerator FollowVector3Points(float time, Vector3[] travelPositions)
@@ -41,12 +37,17 @@ public class FollowPositions : MonoBehaviour
     {
         while (gameObject != null)
         {
-            if (Physics.Raycast(objectRenderer.bounds.center, parentObject.transform.position - gameObject.transform.position, out hit, 1f))
+            if (Physics.Raycast(transform.position, parentObject.transform.position - transform.position, out hit, 3f) && hit.collider.gameObject == parentObject)
             {
+
                 gameObject.transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+                
+
             }
 
-            yield return new WaitForSeconds(0.01f);
+
+
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
