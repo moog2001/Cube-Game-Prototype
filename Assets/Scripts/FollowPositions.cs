@@ -22,8 +22,10 @@ public class FollowPositions : MonoBehaviour
             Vector3 startingPos = travelPositions[i];
             Vector3 finalPos = travelPositions[i + 1];
             float elapsedTime = 0;
+            
             while (elapsedTime < time)
             {
+                transform.Rotate(Vector3.up* 500f * Time.deltaTime,Space.Self);
                 transform.localPosition = Vector3.Lerp(startingPos, finalPos, (elapsedTime / time));
                 elapsedTime += Time.deltaTime;
                 yield return null;
