@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerMovementController : MonoBehaviour
 {
 
     private CinemachineFreeLook freeLookCam;
@@ -40,6 +40,7 @@ public class Movement : MonoBehaviour
     float verticalNormalized;
     bool isSprinting;
     [SerializeField] LayerMask mask;
+    
 
     void Start()
     {
@@ -100,6 +101,12 @@ public class Movement : MonoBehaviour
         {
             verticalNormalized = 1f;
         }
+
+
+
+        
+        
+
 
 
     }

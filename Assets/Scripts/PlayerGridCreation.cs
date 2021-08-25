@@ -2,7 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using CodeMonkey.Utils;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
+
+public struct GridCenterTransforms
+    {
+        public bool IsFree;
+        public Vector3 position;
+        public string name;
+    }
+
 
 public class PlayerGridCreation : MonoBehaviour
 {
@@ -14,20 +23,16 @@ public class PlayerGridCreation : MonoBehaviour
     Vector3[,][] centers = new Vector3[3, 4][];
     Vector3[,,] lineVerticesAligned = new Vector3[3, 4, 2];
 
-    Vector3[][,] gridCenters;
     [SerializeField] private int gridNumX;
     [SerializeField] private int gridNumY;
 
     [SerializeField] private int gridNumZ;
     [SerializeField] GameObject scanPrefab;
     [SerializeField] float scanTime;
+    [SerializeField]GUIStyle style;
     private delegate void TestDelegate(); // This defines what type of method you're going to call.
     private TestDelegate methodToCall;
-
-
-    List<List<Vector3>> scanCenters = new List<List<Vector3>>();
-
-    public bool isDone = false;
+    public GridCenterTransforms[][,] gridCenterTransforms;
     void Start()
     {
         //getting player info and components
@@ -63,54 +68,70 @@ public class PlayerGridCreation : MonoBehaviour
 
 
 
-        gridCenters = new Vector3[5][,]
+        
+
+       
+       gridCenterTransforms = new GridCenterTransforms[5][,]
        {
-        new Vector3[gridNumX,gridNumY],
-        new Vector3[gridNumX,gridNumY],
-        new Vector3[gridNumZ,gridNumY],
-        new Vector3[gridNumZ,gridNumY],
-        new Vector3[gridNumX, gridNumZ],
+        new GridCenterTransforms[gridNumX,gridNumY],
+        new GridCenterTransforms[gridNumX,gridNumY],
+        new GridCenterTransforms[gridNumZ,gridNumY],
+        new GridCenterTransforms[gridNumZ,gridNumY],
+        new GridCenterTransforms[gridNumX, gridNumZ],
        };
         // x and y 
-        for (int i = 0; i < gridCenters[0].GetLength(0); i++)
+        for (int i = 0; i < gridCenterTransforms[0].GetLength(0); i++)
         {
-            for (int j = 0; j < gridCenters[0].GetLength(1); j++)
+            for (int j = 0; j < gridCenterTransforms[0].GetLength(1); j++)
             {
-                gridCenters[0][i, j] = GetIntersection(centers[0, 0][i], centers[0, 1][i], centers[1, 0][j], centers[1, 1][j]);
+                gridCenterTransforms[0][i, j].position = GetIntersection(centers[0, 0][i], centers[0, 1][i], centers[1, 0][j], centers[1, 1][j]);
+                gridCenterTransforms[0][i, j].IsFree = true;
+                gridCenterTransforms[0][i, j].name = "x+ : " + i.ToString() + ", " + j.ToString();
             }
         }
         //x and y
-        for (int i = 0; i < gridCenters[1].GetLength(0); i++)
+        for (int i = 0; i < gridCenterTransforms[1].GetLength(0); i++)
         {
-            for (int j = 0; j < gridCenters[1].GetLength(1); j++)
+            for (int j = 0; j < gridCenterTransforms[1].GetLength(1); j++)
             {
-                gridCenters[1][i, j] = GetIntersection(centers[0, 2][i], centers[0, 3][i], centers[1, 2][j], centers[1, 3][j]);
+                gridCenterTransforms[1][i, j].position = GetIntersection(centers[0, 2][i], centers[0, 3][i], centers[1, 2][j], centers[1, 3][j]);
+                gridCenterTransforms[1][i, j].IsFree = true;
+                gridCenterTransforms[1][i, j].name = "x- : " + i.ToString() + ", " + j.ToString();
             }
         }
         // z and y
-        for (int i = 0; i < gridCenters[2].GetLength(0); i++)
+        for (int i = 0; i < gridCenterTransforms[2].GetLength(0); i++)
         {
-            for (int j = 0; j < gridCenters[2].GetLength(1); j++)
+            for (int j = 0; j < gridCenterTransforms[2].GetLength(1); j++)
             {
-                gridCenters[2][i, j] = GetIntersection(centers[2, 0][i], centers[2, 1][i], centers[1, 0][j], centers[1, 2][j]);
+                gridCenterTransforms[2][i, j].position = GetIntersection(centers[2, 0][i], centers[2, 1][i], centers[1, 0][j], centers[1, 2][j]);
+                gridCenterTransforms[2][i, j].IsFree = true;
+                gridCenterTransforms[2][i, j].name ="z+ : " + i.ToString() + ", " + j.ToString();
             }
         }
         // z and y
-        for (int i = 0; i < gridCenters[3].GetLength(0); i++)
+        for (int i = 0; i < gridCenterTransforms[3].GetLength(0); i++)
         {
-            for (int j = 0; j < gridCenters[3].GetLength(1); j++)
+            for (int j = 0; j < gridCenterTransforms[3].GetLength(1); j++)
             {
-                gridCenters[3][i, j] = GetIntersection(centers[2, 2][i], centers[2, 3][i], centers[1, 3][j], centers[1, 1][j]);
+                gridCenterTransforms[3][i, j].position =GetIntersection(centers[2, 2][i], centers[2, 3][i], centers[1, 3][j], centers[1, 1][j]);
+                gridCenterTransforms[3][i, j].IsFree= true;
+                gridCenterTransforms[3][i, j].name = "z- : " + i.ToString() + ", " + j.ToString();
             }
         }
         // x and z
-        for (int i = 0; i < gridCenters[4].GetLength(0); i++)
+        for (int i = 0; i < gridCenterTransforms[4].GetLength(0); i++)
         {
-            for (int j = 0; j < gridCenters[4].GetLength(1); j++)
+            for (int j = 0; j < gridCenterTransforms[4].GetLength(1); j++)
             {
-                gridCenters[4][i, j] = GetIntersection(centers[0, 1][i], centers[0, 3][i], centers[2, 1][j], centers[2, 3][j]);
+                gridCenterTransforms[4][i, j].position = GetIntersection(centers[0, 1][i], centers[0, 3][i], centers[2, 1][j], centers[2, 3][j]);
+                gridCenterTransforms[4][i, j].IsFree = true;
+                gridCenterTransforms[4][i, j].name = "y+ : " +i.ToString() + ", " + j.ToString();
             }
         }
+        PlayerBehaviorController playerBehaviorController = GetComponent<PlayerBehaviorController>();
+        playerBehaviorController.Initiliaze();
+        
 
 
         // animation for the scanning thing
@@ -124,6 +145,24 @@ public class PlayerGridCreation : MonoBehaviour
         }
 
 
+    }
+
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.red;
+        
+
+        for (int i = 0; i < gridCenterTransforms.GetLength(0); i++)
+        {
+            for (int j = 0; j < gridCenterTransforms[i].GetLength(0); j++)
+            {
+                for (int n = 0; n < gridCenterTransforms[i].GetLength(1); n++)
+                {
+                    Gizmos.DrawSphere(transform.TransformPoint(gridCenterTransforms[i][j,n].position), 0.01f);
+                    Handles.Label(transform.TransformPoint(gridCenterTransforms[i][j,n].position), gridCenterTransforms[i][j,n].name, style);
+                
+                }
+            }
+        }
     }
 
     // Update is called once per frame
@@ -280,6 +319,7 @@ public class PlayerGridCreation : MonoBehaviour
         }
     }
 
+    
     IEnumerator waitForScanSingle(float scanWaitTime)
     {
 

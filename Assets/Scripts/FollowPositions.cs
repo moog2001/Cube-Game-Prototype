@@ -8,8 +8,6 @@ public class FollowPositions : MonoBehaviour
     public GameObject parentObject;
     private RaycastHit hit;
     public List<Vector3> hitPoints = new List<Vector3>();
-    public bool isDone = false;
-
     private void Start()
     {
         transform.SetParent(parentObject.transform);

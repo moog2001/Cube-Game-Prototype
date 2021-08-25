@@ -47,7 +47,7 @@
      <Compile Include="Assets\CodeMonkey\Utils\FunctionUpdater.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\FunctionTimer.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
-     <Compile Include="Assets\Scripts\Movement.cs" />
+     <Compile Include="Assets\Scripts\PlayerMovementController.cs" />
      <Compile Include="Assets\Scripts\PlayerGridCreation.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\UI_Sprite.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\UI_TextComplex.cs" />
@@ -68,7 +68,12 @@
      <Compile Include="Assets\Scripts\FollowPositions.cs" />
      <Compile Include="Assets\CodeMonkey\CMDebug.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\FunctionPeriodic.cs" />
+     <Compile Include="Assets\FattyPolyTurretPart2Free\Scripts\Projectile.cs" />
+     <Compile Include="Assets\FattyPolyTurretPart2Free\Scripts\TurretAI.cs" />
+     <Compile Include="Assets\FattyPolyTurretPart2Free\Scripts\WASDMovement.cs" />
+     <Compile Include="Assets\Scripts\PlayerBehaviorController.cs" />
      <None Include="Assets\CodeMonkey\README.txt" />
+     <None Include="Assets\FattyPolyTurretPart2Free\Readme.txt" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Moog/programs/unity/2020.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -665,9 +670,6 @@
     </Reference>
     <Reference Include="Unity.Searcher.Editor">
         <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.Searcher.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-        <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
         <HintPath>D:/Moog/User/Documents/GitHub/Cube-Game-Prototype/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
