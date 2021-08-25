@@ -126,7 +126,7 @@ public class Movement : MonoBehaviour
 
         //turning
 
-        Physics.Raycast(new Vector3(objectCollider.bounds.center.x, objectCollider.bounds.min.y, objectCollider.bounds.center.z), -transform.up, out rayObject, 0.2f, mask.value);
+        Physics.Raycast(new Vector3(objectCollider.bounds.center.x, objectCollider.bounds.min.y, objectCollider.bounds.center.z), -transform.up, out rayObject, 0.2f, ~mask.value);
         if (rayObject.collider != null)
         {
             rayObjectCache = rayObject;
@@ -151,6 +151,6 @@ public class Movement : MonoBehaviour
     }
     bool IsGrounded()
     {
-        return Physics.CheckCapsule(objectCollider.bounds.center, new Vector3(objectCollider.bounds.center.x, objectCollider.bounds.min.y - 0.05f, objectCollider.bounds.center.z), 0.18f, mask.value);
+        return Physics.CheckCapsule(objectCollider.bounds.center, new Vector3(objectCollider.bounds.center.x, objectCollider.bounds.min.y - 0.05f, objectCollider.bounds.center.z), 0.18f, ~mask.value);
     }
 }

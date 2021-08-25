@@ -53,15 +53,12 @@
      <Compile Include="Assets\CodeMonkey\Utils\UI_TextComplex.cs" />
      <Compile Include="Assets\Scripts\ObjectGrid.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\Button_Sprite.cs" />
-     <Compile Include="Assets\Scripts\vectorDivision.cs" />
      <Compile Include="Assets\CodeMonkey\Assets.cs" />
-     <Compile Include="Assets\Scripts\line.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\World_Sprite.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\UtilsClass.cs" />
      <Compile Include="Assets\Scripts\MenuUIHandler.cs" />
      <Compile Include="Assets\CodeMonkey\MonoBehaviours\PositionRendererSorter.cs" />
      <Compile Include="Assets\GridMap\Scripts\MeshUtils.cs" />
-     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\UI_Bar.cs" />
      <Compile Include="Assets\Scripts\CollisionContacts.cs" />
      <Compile Include="Assets\CodeMonkey\MonoBehaviours\ComponentActions.cs" />
