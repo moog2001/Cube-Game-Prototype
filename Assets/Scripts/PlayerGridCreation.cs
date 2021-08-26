@@ -129,9 +129,7 @@ public class PlayerGridCreation : MonoBehaviour
                 gridCenterTransforms[4][i, j].name = "y+ : " +i.ToString() + ", " + j.ToString();
             }
         }
-        PlayerBehaviorController playerBehaviorController = GetComponent<PlayerBehaviorController>();
-        playerBehaviorController.Initiliaze();
-        
+        PlayerBehaviorController playerBehaviorController = GetComponent<PlayerBehaviorController>();        
 
 
         // animation for the scanning thing

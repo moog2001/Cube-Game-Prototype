@@ -44,6 +44,7 @@
      <Compile Include="Assets\CodeMonkey\MonoBehaviours\CameraFollowSetup.cs" />
      <Compile Include="Assets\CodeMonkey\MonoBehaviours\CameraFollow.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\World_Bar.cs" />
+     <Compile Include="Assets\Scripts\PlayerBehaviorController.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\FunctionUpdater.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\FunctionTimer.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
@@ -66,12 +67,26 @@
      <Compile Include="Assets\Scripts\FollowPositions.cs" />
      <Compile Include="Assets\CodeMonkey\CMDebug.cs" />
      <Compile Include="Assets\CodeMonkey\Utils\FunctionPeriodic.cs" />
-     <Compile Include="Assets\FattyPolyTurretPart2Free\Scripts\Projectile.cs" />
-     <Compile Include="Assets\FattyPolyTurretPart2Free\Scripts\TurretAI.cs" />
-     <Compile Include="Assets\FattyPolyTurretPart2Free\Scripts\WASDMovement.cs" />
-     <Compile Include="Assets\Scripts\PlayerBehaviorController.cs" />
+     <Compile Include="Assets\Scripts\GetCenter.cs" />
+     <Compile Include="Assets\Scripts\test.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Gun.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\KeepNearOrigin.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\Rotate.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\DestroyOnContact.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\InitialAngularVelocity.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\SelfDestruct.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\HardFollow.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\Screenshot.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\ActivateScript.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\InitialVelocity.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\LineBeam.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\Gravity.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\RigidbodyCharacterController.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\TurretDemo.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Utilities\ChangeScene.cs" />
+     <Compile Include="Assets\FreeTurretScript\Scripts\Turret.cs" />
+     <None Include="Assets\FreeTurretScript\readme.txt" />
      <None Include="Assets\CodeMonkey\README.txt" />
-     <None Include="Assets\FattyPolyTurretPart2Free\Readme.txt" />
     <Reference Include="UnityEngine">
         <HintPath>D:/Moog/programs/unity/2020.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -725,6 +740,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{4122898a-a28f-b3dc-6050-fc8af452f9c5}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
